@@ -31,9 +31,30 @@
             </button>
         </form>
     </div>
-    <!-- Welcome Screen (Hidden by default) -->
-    <div id="welcome-screen" class="hidden text-center">
-        <h1 class="text-5xl font-extrabold text-gray-800 mb-6">Nick is a dick</h1>
+    <!-- Welcome / Main Screen (Hidden by default) -->
+    <div id="welcome-screen" class="hidden text-center w-full max-w-lg p-6">
+        <h1 class="text-4xl font-extrabold text-gray-800 mb-6">Nick is a dick</h1>
+        
+        <!-- AI Assistant Box -->
+        <div class="bg-white rounded-xl shadow-md p-4 mb-6 flex flex-col h-80">
+            <div class="text-left font-semibold text-gray-700 border-b pb-2 mb-3">AI Assistant</div>
+            
+            <!-- Chat Log -->
+            <div id="chat-log" class="flex-1 overflow-y-auto space-y-3 text-left mb-3 pr-2">
+                <div class="bg-gray-100 p-3 rounded-lg text-sm text-gray-800 max-w-[85%]">
+                    Hello! I'm your AI assistant. How can I help you today?
+                </div>
+            </div>
+            <!-- Chat Input Form -->
+            <form onsubmit="handleChat(event)" class="flex gap-2">
+                <input type="text" id="chat-input" placeholder="Ask something..." required
+                    class="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <button type="submit" 
+                    class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition duration-200">
+                    Send
+                </button>
+            </form>
+        </div>
         <button onclick="handleLogout()" 
             class="px-6 py-2 bg-gray-800 text-white rounded-lg font-semibold hover:bg-gray-700 transition duration-200">
             Log Out
@@ -64,6 +85,30 @@
             
             document.getElementById('welcome-screen').classList.add('hidden');
             document.getElementById('login-screen').classList.remove('hidden');
+        }
+        function handleChat(event) {
+            event.preventDefault();
+            
+            const chatInput = document.getElementById('chat-input');
+            const chatLog = document.getElementById('chat-log');
+            const userMessage = chatInput.value.trim();
+            if (!userMessage) return;
+            // Append User Message
+            const userBubble = document.createElement('div');
+            userBubble.className = "bg-blue-600 text-white p-3 rounded-lg text-sm max-w-[85%] ml-auto text-right";
+            userBubble.textContent = userMessage;
+            chatLog.appendChild(userBubble);
+            // Clear input and scroll down
+            chatInput.value = '';
+            chatLog.scrollTop = chatLog.scrollHeight;
+            // Simulate AI Response (You can replace this logic with an API call later)
+            setTimeout(() => {
+                const aiBubble = document.createElement('div');
+                aiBubble.className = "bg-gray-100 p-3 rounded-lg text-sm text-gray-800 max-w-[85%]";
+                aiBubble.textContent = "I received your message: \"" + userMessage + "\". Ready to connect me to a real backend API?";
+                chatLog.appendChild(aiBubble);
+                chatLog.scrollTop = chatLog.scrollHeight;
+            }, 500);
         }
     </script>
 </body>
